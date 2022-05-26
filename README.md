@@ -1,7 +1,7 @@
 # WGAVarHunter
 Fast and accurate genetic variation identification through whole genome alignment
 
-## Welcome to Whole Genome Alignment-based Variation Hunter (WGAVarHunter)
+## Welcome to <ins>W</ins>hole <ins>G</ins>enome <ins>A</ins>lignment-based <ins>Var</ins>iation Hunter (WGAVarHunter）
 
 Basically, the program was written in [Rust](https://www.rust-lang.org/) and it needs [samtools](http://www.htslib.org/download/), sequence aligner [minimap2](https://github.com/lh3/minimap2), [winnowmap](https://github.com/marbl/Winnowmap), [unimap](https://github.com/lh3/unimap) or [wfmash](https://github.com/waveygang/wfmash). Users need to install the required tools before using ``WGAVHunter``.
 
@@ -9,13 +9,13 @@ Basically, the program was written in [Rust](https://www.rust-lang.org/) and it 
 
 Here I have attached a ``pre-compiled`` edition under ``Linux`` and ``macOS`` environments. 
 
-1. In ``Linux`` environment, users may need to check ``glibc`` by using ``ldd --version``. If the version is ``2.17`` or ``above``, you can freely use the binary tool.
+* In ``Linux`` environment, users may need to check ``glibc`` by using ``ldd --version``. If the version is ``2.17`` or ``above``, users can freely use the binary tool.
 
-2. In ``macOS`` environment, it was compiled in ``macOS Monterey``.
+* In ``macOS`` environment, it was compiled in ``macOS Monterey``.
 
 ### Execution
 
-You can check ``help`` by using ``WGAVHunter -h``
+Users can check ``help`` by using ``WGAVHunter -h``
 
 ```
 ----------------------------------------------------------------------------------------------------
@@ -60,22 +60,36 @@ OPTIONS:
     -V, --version                  Print version information
 ```
 
-And then you may run the program like
+Users may run the program like
 
 ```
 ./WGAVHunter -r ref.fa -q qry.fa -o .
 ```
 
-Parameter settings can be adjusted based on the resources.
+<span style="color:red">  Note: </span> Parameter settings can be adjusted based on the resources.
 
+## Q&A
+
+#### 1. Which aligner should I use?
+
+Depending on the purpose and the resources, user may select one of the aligners recommended in ``WGAVarHunter`` to perform the alignment. However, for large genome comparisons (for example  genome size > ``4Gb``), we recommend using ``unimap`` or ``wfmash``.
+
+<span style="color:red">  Note: </span> WGAVarHunter relies on the alignment to call variants. As the performance of each aligner differs, users need to decide which one or some should be used.
+
+#### 2. How to set a window size ?
+
+Aligning entire chromosomes directly may take a long time and many computational resouces. To speed up alignment, we enable a function to chop the entire chromosome into smaller pieces. From benchmarking, the results were similar but the running time could reduce significantly.
+
+<span style="color:red">  Note: </span> Due to the limitation of BAM format, the window size (```-w```) cannot be over *256 Mb* for large genomes. If you don't want to chop the query genome, set the window size >= the ``max length of a chromosome`` in the query fasta.
+
+#### 3. What are novel genomic regions ?
+
+Novel genomic regions refer to genomic regions having no sequence aligned. They could be novel sequences (some people may call them insertions) or gaps in either reference or query.
 
 **TODO**
 
-- [ ] Translocation callng is under development
-
+* [ ] Translocation calling is under development
 
 **Notification**
 
-- [ ] Variations called from duplication regions or (duplication + inversion regions) may be incorrect. Users may need to further filter. 
-- [ ] Due to the limitation of BAM format, the window size cannot be over 256 Mb
-- [ ] For large genome comparison (for example genomes > 4Gb), we recommend using ``unimap`` or ``wfmash`` for alignment. 
+* Variants called from ``duplication`` or ``duplication + inversion`` regions might be incorrect. Users may need to further filter to meet the research demand
