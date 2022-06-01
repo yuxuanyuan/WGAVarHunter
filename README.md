@@ -1,4 +1,4 @@
-# WGAVarHunter
+# WGAVarHunter (Beta version)
 Fast and accurate genetic variation identification through whole genome alignment
 
 ## Welcome to <ins>W</ins>hole <ins>G</ins>enome <ins>A</ins>lignment-based <ins>Var</ins>iation Hunter (WGAVarHunter）
