@@ -50,6 +50,7 @@ OPTIONS:
     -d <DEFAULT_SV_SIZE>           Minimum SV size (bp) called [default: 50]
     -D <DIST_DUP>                  Maximum allowed distance (bp) between aligned query coordinates
                                    for duplication calling [default: 1000]
+    -T <TRANS_SIZE>                Minimum translocation size (kb) called [default: 10]
     -t <THREADS>                   Number of threads [default: 4]
     -p <PREFIX>                    Prefix of the output files [default: WGAVHunter]
     -o <OUTDIR>                    Output directory
@@ -72,7 +73,7 @@ Users may run the program like
 
 #### 1. Which aligner should I use?
 
-Depending on the purpose and the resources, user may select one of the aligners recommended in ``WGAVarHunter`` to perform the alignment. However, for large genome comparisons (for example  genome size > ``4Gb``), we recommend using ``unimap`` or ``wfmash``.
+Depending on the purpose and the resources, users may select one of the aligners recommended in ``WGAVarHunter`` to perform the alignment. However, for large genome comparisons (for example  genome size > ``4Gb``), we recommend using ``unimap`` or ``wfmash``.
 
 <span style="color:red">  Note: </span> WGAVarHunter relies on the alignment to call variants. As the performance of each aligner differs, users need to decide which one or some should be used.
 
@@ -80,16 +81,13 @@ Depending on the purpose and the resources, user may select one of the aligners 
 
 Aligning entire chromosomes directly may take a long time and many computational resouces. To speed up alignment, we enable a function to chop the entire chromosome into smaller pieces. From benchmarking, the results were similar but the running time could reduce significantly.
 
-<span style="color:red">  Note: </span> Due to the limitation of BAM format, the window size (```-w```) cannot be over *256 Mb* for large genomes. If you don't want to chop the query genome, set the window size >= the ``max length of a chromosome`` in the query fasta.
+<span style="color:red">  Note: </span> If users don't want to chop the query genome, set the window size >= the ``max length of a chromosome`` in the query fasta. However, due to the limitation of BAM format, the window size (```-w```) cannot be over *256 Mb* for large genomes.
 
 #### 3. What are novel genomic regions ?
 
-Novel genomic regions refer to genomic regions having no sequence aligned. They could be novel sequences (some people may call them insertions) or gaps in either reference or query.
+Novel genomic regions refer to genomic regions having no sequence aligned. They could be novel sequences or gaps in either reference or query (different from insertions).
 
-**TODO**
-
-* [ ] Translocation calling is under development
 
 **Notification**
 
-* Variants called from ``duplication`` or ``duplication + inversion`` regions might be incorrect. Users may need to further filter to meet the research demand
+* Variants called from ``duplication`` or ``duplication + inversion`` regions might be incorrect. Users may need to further filter to meet the research demand.
